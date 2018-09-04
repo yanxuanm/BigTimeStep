@@ -6,12 +6,17 @@ k_spring = [100; 80; 90; 50; 30; 70; 100];
 % because there are seven segments, number of nodes will be 8.
 n_nodes = 8;
 
+% Set time step 
+dtSmall = 0.01; 
+% Set how much steps will run
+nSteps = 150;
+
 % define different systems for each segment. 
 syms S1 S2 S3 S4 S5 S6 S7 S8 F1 F2 F3 F4 F5 F6 F7 F8 
 S(2, 1) = S2; S(3, 1) = S3; S(4, 1) = S4; S(5, 1) = S5;
 S(6, 1) = S6; S(7, 1) = S7; S(8, 1) = S8; 
 F(1, 1) = F1; F(2, 1) = 0; F(3, 1) = 0; F(4, 1) = 0;
-F(5, 1) = 0; F(6, 1) = 0; F(7, 1) = 0; F(8, 1) = 50; 
+F(5, 1) = 0; F(6, 1) = 0; F(7, 1) = 0; F(8, 1) = 500; 
 
 %% ELement wise stiffness matrices. 
 [row, col] = size(k_spring);
@@ -68,7 +73,6 @@ disp('F = '); disp(F);
 figure (1);
 subplot(1,2,1);
 plot (S,'-ro','LineWidth',2);
-grid on; box on; axis square;
 
 xlabel('Node number');
 ylabel('Displacement (S, m)');
@@ -77,9 +81,10 @@ set(gca,'XTick',1:1:n_nodes)
 
 subplot(1,2,2);
 plot (F,'-go','LineWidth',2);
-grid on; box on; axis square;
+
 
 xlabel('Node number');
 ylabel('Force (F, kN)');
 set(gca,'XTick',1:1:n_nodes);
 
+perturbation(K); 
