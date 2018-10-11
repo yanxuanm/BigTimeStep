@@ -1,60 +1,19 @@
+clear all; close all; clc;
 
 
+[t, x0] = ode45(@first_order, [0, 3], [1; 0]);
+subplot(1, 3, 1)
+plot(t,x0(:,1),'-o',t,x0(:,2),'-o')
+title('Solution of first_order with ODE45');
+xlabel('Time t');
+ylabel('Solution x0');
+legend('x0_1','x0_2')
 
-function pertODE()
- tspan   = 0:0.1:100;
- IC      = [1 1];
- epsilon = 0.01;
- [t,X] = ode45(@myODE,tspan,IC,[],epsilon);
- x     = X(:,1);
- v     = X(:,2);
- plot(t,x,'r')
- xlabel('t')
- ylabel('x')
- grid
- hold on
-h = pi/6;
-tspan = (0:h:36*pi);
+[t, x1] = ode45(@second_order, [0, 3], [0; 0], x0);
 
-k = 20; 
-m = 100; 
-a = 1;
-
-
-F = @(t, y) [y(2); -(k/m)*y(1)-(a/m)*y(2)];
-y0 = [0; 1];
-
-ode45(F, tspan, y0);
-end
-
-function dY = myODE(t,y,epsilon)
-k = 10; 
-m = 100; 
-a = 10;
-dY = zeros(2,1);
-x  = y(1);
-v  = y(2);
-dY = [v; -(k/m)*x-epsilon*t*x];
-
-end
- 
-
-function ODE()
- h = pi/6;
-tspan = (0:h:36*pi);
-
-k = 10; 
-m = 100; 
-a = 10;
-
-
-F = @(t, y) [y(2); -(k/m)*y(1)-(a/m)*y(2)];
-y0 = [0; 1];
-
-ode45(F, tspan, y0);
-end
-% subplot(1, 2, 1)
-% plot(t, y(:,1), 'b-');
-% subplot(1, 2, 2)
-% plot(t, y(:,2), 'r-');
-%function F = linearK(tspan)
+subplot(1, 3, 2)
+plot(t,x1(:,1),'-o',t,x1(:,2),'-o')
+title('Solution of second_order with ODE45');
+xlabel('Time t');
+ylabel('Solution x1');
+legend('x1_1','x1_2')
